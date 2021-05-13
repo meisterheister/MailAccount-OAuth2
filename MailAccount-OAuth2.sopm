@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<otobo_package version="1.0">
+    <Name>MailAccount-OAuth2</Name>
+    <Vendor>Rother OSS GmbH</Vendor>
+    <Framework>10.0.x</Framework>
+    <URL>https://rother-oss.com/</URL>
+    <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
+	<Description Lang="en">Enables receiving emails (IMAP and POP3) via OAuth 2.0 authorization (RFC 6749).</Description>
+	<Description Lang="de">Ermöglicht das Abholen von E-Mails (IMAP und POP3) über die OAuth 2.0 Autorisierung (RFC 6749).</Description>
+    <Filelist>
+        <File Permission='644' Location='Custom/Kernel/Modules/AdminMailAccount.pm' />
+        <File Permission='644' Location='Custom/Kernel/Output/HTML/Templates/Standard/AdminMailAccount.tt' />
+        <File Permission='644' Location='Custom/Kernel/System/MailAccount.pm' />
+        <File Permission='644' Location='Custom/Kernel/System/MailAccount/POP3.pm' />
+        <File Permission='644' Location='Kernel/Config/Files/XML/MailAccountOAuth2.xml' />
+        <File Permission='644' Location='Kernel/Language/de_MailAccountOAuth2.pm' />
+        <File Permission='644' Location='Kernel/System/MailAccount/IMAPOAuth2.pm' />
+        <File Permission='644' Location='Kernel/System/MailAccount/POP3OAuth2.pm' />
+        <File Permission='644' Location='Kernel/System/OAuth2/MailAccount.pm' />
+        <File Permission='644' Location='Kernel/System/OAuth2.pm' />
+        <File Permission='644' Location='var/httpd/htdocs/js/Core.Agent.Admin.MailAccount.js' />
+    </Filelist>
+	<DatabaseInstall Type="post">
+		<TableAlter Type="post" Name="mail_account">
+			<ColumnAdd Default="0" Name="oauth2_profile" Required="false" Size="45" Type="VARCHAR"></ColumnAdd>
+		</TableAlter>
+        <TableCreate Name="auth_token">
+            <Column Name="account_type" Required="true" Size="25" Type="VARCHAR" />
+            <Column Name="account_id" Required="true" Size="150" Type="VARCHAR" />
+            <Column Name="token_type" Required="true" Size="20" Type="VARCHAR" />
+            <Column Name="token" Required="true" Type="TEXT" />
+        </TableCreate>
+	</DatabaseInstall>
+    <DatabaseUninstall Type="pre">
+        <TableAlter Name="mail_account">
+            <ColumnDrop Name="oauth2_profile" />
+        </TableAlter>
+        <TableDrop Name="auth_token">
+        </TableDrop>
+    </DatabaseUninstall>
+</otobo_package>
