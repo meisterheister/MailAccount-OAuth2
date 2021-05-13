@@ -184,7 +184,7 @@
                                 <div id="ProfileServerError" class="TooltipErrorMessage">
                                     <p>[% Translate("This field is required.") | html %]</p>
                                 </div>
-                                <p class="FieldExplanation">[% Translate('Profiles can be specified in the system configuration under the setting "OAuth2::Profiles".') | html %]</p>
+                                <p class="FieldExplanation">[% Translate('Profiles can be specified in the system configuration under the setting "OAuth2::MailAccount::Profiles".') | html %]</p>
                             </div>
                             <div class="Clear"></div>
                         </div>
@@ -327,7 +327,7 @@
                                 <div id="ProfileServerError" class="TooltipErrorMessage">
                                     <p>[% Translate("This field is required.") | html %]</p>
                                 </div>
-                                <p class="FieldExplanation">[% Translate('Profiles can be specified in the system configuration under the setting "OAuth2::Profiles".') | html %]</p>
+                                <p class="FieldExplanation">[% Translate('Profiles can be specified in the system configuration under the setting "OAuth2::MailAccount::Profiles".') | html %]</p>
                             </div>
                             <div class="Clear"></div>
                         </div>

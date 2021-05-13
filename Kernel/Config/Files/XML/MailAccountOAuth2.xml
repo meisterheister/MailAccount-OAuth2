@@ -10,7 +10,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Providers###MicrosoftAzure" Required="1" Valid="1">
+    <Setting Name="OAuth2::MailAccount::Providers###MicrosoftAzure" Required="1" Valid="1">
         <Description Translatable="1">Authorization server settings for Microsoft Azure/Microsoft 365.</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
@@ -33,7 +33,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Providers###GoogleWorkspace" Required="1" Valid="1">
+    <Setting Name="OAuth2::MailAccount::Providers###GoogleWorkspace" Required="1" Valid="1">
         <Description Translatable="1">Authorization server settings for Google Workspace.</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
@@ -56,7 +56,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Providers###Custom1" Required="0" Valid="0">
+    <Setting Name="OAuth2::MailAccount::Providers###Custom1" Required="0" Valid="0">
         <Description Translatable="1">Custom authorization server settings.</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
@@ -79,7 +79,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Providers###Custom2" Required="0" Valid="0">
+    <Setting Name="OAuth2::MailAccount::Providers###Custom2" Required="0" Valid="0">
         <Description Translatable="1">Custom authorization server settings.</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
@@ -102,7 +102,7 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Providers###Custom3" Required="0" Valid="0">
+    <Setting Name="OAuth2::MailAccount::Providers###Custom3" Required="0" Valid="0">
         <Description Translatable="1">Custom authorization server settings.</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
@@ -125,8 +125,8 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Profiles###Custom1" Required="0" Valid="0">
-        <Description Translatable="1">Configure custom OAuth 2 application profiles. "Name" should be unique and will be displayed on the Mail Account Management screen. "ProviderName" can be "MicrosoftAzure", "GoogleWorkspace" or a custom provider like "Custom1" (see OAuth2::Providers).</Description>
+    <Setting Name="OAuth2::MailAccount::Profiles###Custom1" Required="0" Valid="0">
+        <Description Translatable="1">Configure custom OAuth 2 application profiles. "Name" should be unique and will be displayed on the Mail Account Management screen. "ProviderName" can be "MicrosoftAzure", "GoogleWorkspace" or a custom provider like "Custom1" (see OAuth2::MailAccount::Providers).</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
             <Hash>
@@ -137,8 +137,8 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Profiles###Custom2" Required="0" Valid="0">
-        <Description Translatable="1">Configure custom OAuth 2 application profiles. "Name" should be unique and will be displayed on the Mail Account Management screen. "ProviderName" can be "MicrosoftAzure", "GoogleWorkspace" or a custom provider like "Custom1" (see OAuth2::Providers).</Description>
+    <Setting Name="OAuth2::MailAccount::Profiles###Custom2" Required="0" Valid="0">
+        <Description Translatable="1">Configure custom OAuth 2 application profiles. "Name" should be unique and will be displayed on the Mail Account Management screen. "ProviderName" can be "MicrosoftAzure", "GoogleWorkspace" or a custom provider like "Custom1" (see OAuth2::MailAccount::Providers).</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
             <Hash>
@@ -149,8 +149,8 @@
             </Hash>
         </Value>
     </Setting>
-    <Setting Name="OAuth2::Profiles###Custom3" Required="0" Valid="0">
-        <Description Translatable="1">Configure custom OAuth 2 application profiles. "Name" should be unique and will be displayed on the Mail Account Management screen. "ProviderName" can be "MicrosoftAzure", "GoogleWorkspace" or a custom provider like "Custom1" (see OAuth2::Providers).</Description>
+    <Setting Name="OAuth2::MailAccount::Profiles###Custom3" Required="0" Valid="0">
+        <Description Translatable="1">Configure custom OAuth 2 application profiles. "Name" should be unique and will be displayed on the Mail Account Management screen. "ProviderName" can be "MicrosoftAzure", "GoogleWorkspace" or a custom provider like "Custom1" (see OAuth2::MailAccount::Providers).</Description>
         <Navigation>Core::Email::OAuth2</Navigation>
         <Value>
             <Hash>
