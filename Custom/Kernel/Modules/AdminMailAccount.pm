@@ -152,7 +152,7 @@ sub Run {
 
         my %Errors;
 # Rother OSS / MailAccount-OAuth2
-        my $OAuth2 = $GetParam{Type} =~ /OAuth/ ? 1 : 0;
+        my $OAuth2 = ( $GetParam{TypeAdd} && $GetParam{TypeAdd} =~ /OAuth/ ) ? 1 : 0;
 # EO MailAccount-OAuth2        
 
 # Rother OSS / MailAccount-OAuth2
@@ -255,7 +255,7 @@ sub Run {
 
         my %Errors;
 # Rother OSS / MailAccount-OAuth2
-        my $OAuth2 = $GetParam{Type} =~ /OAuth/ ? 1 : 0;
+        my $OAuth2 = ( $GetParam{Type} && $GetParam{Type} =~ /OAuth/ ) ? 1 : 0;
 # EO MailAccount-OAuth2        
 
         # check needed data

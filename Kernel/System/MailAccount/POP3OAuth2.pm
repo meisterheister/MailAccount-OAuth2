@@ -73,7 +73,7 @@ sub Connect {
     );
 
     # authentication
-    $AccessToken = $Kernel::OM->Get('Kernel::System::OAuth2::MailAccount')->GetAccessToken(
+    my $AccessToken = $Kernel::OM->Get('Kernel::System::OAuth2::MailAccount')->GetAccessToken(
         MailAccountID => $Param{ID}
     );
 
