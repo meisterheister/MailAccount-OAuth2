@@ -60,7 +60,7 @@ sub Connect {
         MailAccountID => $Param{ID}
     );
 
-    if (!$AccessToken) {
+    if ( !$AccessToken ) {
         return (
             Successful => 0,
             Message    => "IMAPOAuth2: Could not request access token for $Param{Login}/$Param{Host}'. The refresh token could be expired or invalid."
@@ -79,8 +79,8 @@ sub Connect {
     );
 
     # Auth via SASL XOAUTH2.
-    my $SASLXOAUTH2 = encode_base64('user=' . $Param{Login} . "\x01auth=Bearer " . $AccessToken . "\x01\x01");
-    $IMAPObject->authenticate('XOAUTH2', sub { return $SASLXOAUTH2 });
+    my $SASLXOAUTH2 = encode_base64( 'user=' . $Param{Login} . "\x01auth=Bearer " . $AccessToken . "\x01\x01" );
+    $IMAPObject->authenticate( 'XOAUTH2', sub { return $SASLXOAUTH2 } );
 
     if ( !$IMAPObject || !$IMAPObject->IsAuthenticated() ) {
         return (
@@ -219,7 +219,7 @@ sub _Fetch {
         my $Error = $@;
         %Connect = (
             Successful => 0,
-            Message =>
+            Message    =>
                 "Something went wrong while trying to connect to 'IMAPOAuth2 => $Param{Login}/$Param{Host}': ${ Error }",
         );
     };

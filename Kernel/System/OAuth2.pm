@@ -25,9 +25,11 @@ use URI::QueryParam;
 our @ObjectDependencies = (
     'Kernel::Config',
     'Kernel::System::Cache',
+    'Kernel::System::DB',
     'Kernel::System::JSON',
     'Kernel::System::Log',
     'Kernel::System::MailAccount',
+    'Kernel::System::Main',
     'Kernel::System::WebUserAgent',
 );
 
@@ -108,13 +110,13 @@ sub BuildAuthURL {
         Value => \%Param,
     );
 
-    my $URL = URI->new($Param{BaseAuthURL});
-    $URL->query_param_append('client_id', $Param{ClientID});
-    $URL->query_param_append('response_type', 'code');
-    $URL->query_param_append('scope', $Param{Scope});
-    $URL->query_param_append('response_mode', 'query');
-    $URL->query_param_append('state', $RandomString);
-    $URL->query_param_append('login_hint', $Param{Login});
+    my $URL = URI->new( $Param{BaseAuthURL} );
+    $URL->query_param_append( 'client_id',     $Param{ClientID} );
+    $URL->query_param_append( 'response_type', 'code' );
+    $URL->query_param_append( 'scope',         $Param{Scope} );
+    $URL->query_param_append( 'response_mode', 'query' );
+    $URL->query_param_append( 'state',         $RandomString );
+    $URL->query_param_append( 'login_hint',    $Param{Login} );
 
     return $URL->as_string;
 }
@@ -126,19 +128,19 @@ This can either be used to request an initial access and refresh token or to req
 Example:
     my %Response = $Self->_RequestAccessToken(
         URL          => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
-        ClientSecret => '_BExbVD-Ys.1JGQYi02R0u7mJf8BwZG.k4',
+        ClientSecret => $SecretValue,
         Scope        => 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All',
-        ClientID     => '3f3219d4-8f0b-4bd9-b57e-c9dede73206f',
+        ClientID     => $ClientID,
         GrantType    => 'refresh_token',
         AccountType  => 'MailAccount',
         AccountID    => 'max@mail.de',
-        Code         => '0.ATwAPR__xfVMxEGhy...'    # Optional: Only needed in combination with GrantType "authorization_code".
+        Code         => $Code,    # Optional: Only needed in combination with GrantType "authorization_code".
     )
 
 Returns:
     %Response = (
-        'refresh_token'  => '0.ATwAPR__xfVMxEGhy...',
-        'access_token'   => 'eyJ0eXAiOiJKV1QiLCb2...',
+        'refresh_token'  => '123...',
+        'access_token'   => '098...',
         'ext_expires_in' => 3599,
         'token_type'     => 'Bearer',
         'expires_in'     => 3599,
@@ -179,7 +181,7 @@ sub _RequestAccessToken {
         $DBObject = $Kernel::OM->Get('Kernel::System::DB');
 
         my $SQL = "SELECT token FROM $Self->{TokenTable} WHERE "
-            ."account_type = LOWER(?) AND account_id = ? AND token_type = 'refresh'";
+            . "account_type = LOWER(?) AND account_id = ? AND token_type = 'refresh'";
 
         return if !$DBObject->Prepare(
             SQL   => $SQL,
@@ -228,7 +230,7 @@ sub _RequestAccessToken {
         Data => ${ $Response{Content} }
     );
 
-    if (exists $ResponseData->{error} || exists $ResponseData->{error_description}) {
+    if ( exists $ResponseData->{error} || exists $ResponseData->{error_description} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => $ResponseData->{error} . ': ' . $ResponseData->{error_description},
@@ -237,7 +239,7 @@ sub _RequestAccessToken {
     }
 
     # Should not happen if no error message given.
-    if (!$ResponseData->{access_token} || !$ResponseData->{refresh_token} || !$ResponseData->{expires_in}) {
+    if ( !$ResponseData->{access_token} || !$ResponseData->{refresh_token} || !$ResponseData->{expires_in} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Host did not provide "access_token", "refresh_token" or "expires_in"!',
@@ -252,19 +254,19 @@ sub _RequestAccessToken {
         # delete old data
         return if !$DBObject->Do(
             SQL => "DELETE FROM $Self->{TokenTable} WHERE "
-                ."account_type = LOWER(?) AND account_id = ? AND token_type = 'refresh'",
+                . "account_type = LOWER(?) AND account_id = ? AND token_type = 'refresh'",
             Bind => [ \$Param{AccountType}, \$Param{AccountID} ],
         );
 
         # insert new data
         return if !$DBObject->Do(
             SQL => "INSERT INTO $Self->{TokenTable} (token, account_type, account_id, token_type) "
-                ."VALUES (?, ?, ?, 'refresh')",
+                . "VALUES (?, ?, ?, 'refresh')",
             Bind => [ \$ResponseData->{refresh_token}, \$Param{AccountType}, \$Param{AccountID} ],
         );
     }
 
-    return %{ $ResponseData };
+    return %{$ResponseData};
 }
 
 =head2 _DeleteToken()
@@ -291,16 +293,16 @@ sub _DeleteToken {
             return;
         }
     }
-    
+
     if ( $Param{TokenType} ) {
         return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL => "DELETE FROM $Self->{TokenTable} WHERE account_type = ? AND account_id = ? AND token_type = ?",
+            SQL  => "DELETE FROM $Self->{TokenTable} WHERE account_type = ? AND account_id = ? AND token_type = ?",
             Bind => [ \$Param{AccountType}, \$Param{AccountID}, \$Param{TokenType} ],
         );
     }
     else {
         return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
-            SQL => "DELETE FROM $Self->{TokenTable} WHERE account_type = ? AND account_id = ?",
+            SQL  => "DELETE FROM $Self->{TokenTable} WHERE account_type = ? AND account_id = ?",
             Bind => [ \$Param{AccountType}, \$Param{AccountID} ],
         );
     }

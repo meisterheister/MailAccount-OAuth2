@@ -119,7 +119,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             QueryString += ';ChallengeToken=' + ChallengeToken + ';Subaction=ProcessActionOAuth2';
             window.location.search = QueryString;
         }
-        
+
         // Prevent resending on reload by remove all params. Fixme: Don't even show response in URL (no security issue).
         if (/;state=|;code=|;error|;error_description/.test(QueryString)) {
             const Seperator = 'AdminMailAccount';

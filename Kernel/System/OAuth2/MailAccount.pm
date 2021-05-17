@@ -32,7 +32,7 @@ our @ObjectDependencies = (
 
 =head1 NAME
 
-Kernel::System::OAuth2 - to authenticate
+Kernel::System::OAuth2::MailAccount - to authenticate
 
 =head1 DESCRIPTION
 
@@ -82,11 +82,11 @@ sub GetAuthURL {
         }
     }
 
-    my $Profiles  = $ConfigObject->Get('OAuth2::MailAccount::Profiles') || {};
+    my $Profiles  = $ConfigObject->Get('OAuth2::MailAccount::Profiles')  || {};
     my $Providers = $ConfigObject->Get('OAuth2::MailAccount::Providers') || {};
 
-    my $Profile  = $Profiles->{$Param{Profile}};
-    my $Provider = $Providers->{$Profile->{ProviderName}};
+    my $Profile  = $Profiles->{ $Param{Profile} };
+    my $Provider = $Providers->{ $Profile->{ProviderName} };
 
     my $TypeWithoutOAuth = $Param{Type};
     $TypeWithoutOAuth =~ s/OAuth2//g;
@@ -132,16 +132,16 @@ sub MailAccountProcess {
         }
     }
 
-    my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # Get the mail account params set by BuildAuthURL().
-    my $CacheKey = 'OAuth2State::' . $Param{state};
+    my $CacheKey         = 'OAuth2State::' . $Param{state};
     my $MailAccountParam = $CacheObject->Get(
-        Type  => $Self->{CacheType},
-        Key   => $CacheKey,
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
     );
 
-    if (!$MailAccountParam) {
+    if ( !$MailAccountParam ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => 'Authorization took too long (no cache found).',
@@ -151,13 +151,13 @@ sub MailAccountProcess {
 
     # Can only be used once to prevent resends by refreshes.
     $CacheObject->Delete(
-        Type  => $Self->{CacheType},
-        Key   => $CacheKey,
+        Type => $Self->{CacheType},
+        Key  => $CacheKey,
     );
 
     my $MailAccountID;
     if ( $MailAccountParam->{Task} eq 'Add' ) {
-        $MailAccountID = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountAdd( %{ $MailAccountParam } );
+        $MailAccountID = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountAdd( %{$MailAccountParam} );
     }
     elsif ( $MailAccountParam->{Task} eq 'Update' ) {
         $MailAccountID = $MailAccountParam->{ID};
@@ -189,16 +189,16 @@ sub MailAccountProcess {
     }
 
     if ( $MailAccountParam->{Task} eq 'Update' && $MailAccountParam->{ID} ) {
-        return $Error if !$Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountUpdate( %{ $MailAccountParam } );
+        return $Error if !$Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountUpdate( %{$MailAccountParam} );
     }
 
     # Cache the access token until it expires.
     $CacheObject->Set(
         Type           => $Self->{CacheType},
-        TTL            => ($Response{expires_in} - 90),    # Add a buffer for latency reasons.
+        TTL            => ( $Response{expires_in} - 90 ),               # Add a buffer for latency reasons.
         Key            => "AccessToken::MailAccount::$MailAccountID",
         Value          => $Response{access_token},
-        CacheInMemory  => 0,                               # Cache in Backend only to enforce TTL
+        CacheInMemory  => 0,                                            # Cache in Backend only to enforce TTL
         CacheInBackend => 1,
     );
 
@@ -207,7 +207,6 @@ sub MailAccountProcess {
         Task    => $MailAccountParam->{Task},
     };
 }
-
 
 =head2 GetAccessToken()
 
@@ -223,7 +222,7 @@ Example:
 sub GetAccessToken {
     my ( $Self, %Param ) = @_;
 
-    if (!$Param{MailAccountID}) {
+    if ( !$Param{MailAccountID} ) {
         $Kernel::OM->Get('Kernel::System::Log')->Log(
             Priority => 'error',
             Message  => "Need MailAccountID!"
@@ -231,7 +230,7 @@ sub GetAccessToken {
         return;
     }
 
-    my $CacheObject  = $Kernel::OM->Get('Kernel::System::Cache');
+    my $CacheObject = $Kernel::OM->Get('Kernel::System::Cache');
 
     # Try the cache
     my $Token = $CacheObject->Get(
@@ -243,7 +242,7 @@ sub GetAccessToken {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Profiles    = $ConfigObject->Get('OAuth2::MailAccount::Profiles') || {};
+    my $Profiles    = $ConfigObject->Get('OAuth2::MailAccount::Profiles')  || {};
     my $Providers   = $ConfigObject->Get('OAuth2::MailAccount::Providers') || {};
     my %MailAccount = $Kernel::OM->Get('Kernel::System::MailAccount')->MailAccountGet(
         ID => $Param{MailAccountID}
@@ -252,7 +251,7 @@ sub GetAccessToken {
     my $Profile          = $Profiles->{ $MailAccount{Profile} };
     my $Provider         = $Providers->{ $Profile->{ProviderName} };
     my $TypeWithoutOAuth = $MailAccount{Type};
-    $TypeWithoutOAuth    =~ s/OAuth2//g;
+    $TypeWithoutOAuth =~ s/OAuth2//g;
 
     my $ProviderType = $Provider->{$TypeWithoutOAuth};
 
@@ -270,14 +269,13 @@ sub GetAccessToken {
 
     $Kernel::OM->Get('Kernel::System::Cache')->Set(
         Type  => $Self->{CacheType},
-        TTL   => ($Response{expires_in} - 90),    # Add a buffer for latency reasons.
+        TTL   => ( $Response{expires_in} - 90 ),                     # Add a buffer for latency reasons.
         Key   => "AccesToken::MailAccount::$Param{MailAccountID}",
         Value => $Response{access_token},
     );
 
     return $Response{access_token};
 }
-
 
 =head2 GetProfiles()
 
@@ -305,18 +303,18 @@ sub GetProfiles {
 
     my $ConfigObject = $Kernel::OM->Get('Kernel::Config');
 
-    my $Profiles = $ConfigObject->Get('OAuth2::MailAccount::Profiles') || {};
+    my $Profiles  = $ConfigObject->Get('OAuth2::MailAccount::Profiles')  || {};
     my $Providers = $ConfigObject->Get('OAuth2::MailAccount::Providers') || {};
 
     my @ProfileList = ();
 
     # Validate provider name set by the user in the system configuration.
-    for my $Profile (keys %{ $Profiles }) {
+    for my $Profile ( keys %{$Profiles} ) {
         my $ProviderName = $Profiles->{$Profile}->{ProviderName};
         if ( $Providers->{$ProviderName} ) {
             push @ProfileList, {
                 Value => $Profiles->{$Profile}->{Name} . ' (' . $ProviderName . ')',
-                Key => $Profile
+                Key   => $Profile
             };
         }
     }

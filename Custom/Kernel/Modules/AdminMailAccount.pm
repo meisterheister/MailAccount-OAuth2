@@ -153,7 +153,7 @@ sub Run {
         my %Errors;
 # Rother OSS / eyazi@efflux / MailAccount-OAuth2
         my $OAuth2 = ( $GetParam{TypeAdd} && $GetParam{TypeAdd} =~ /OAuth/ ) ? 1 : 0;
-# EO MailAccount-OAuth2        
+# EO MailAccount-OAuth2
 
 # Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #        for my $Needed (qw(Login Password Host)) {
@@ -186,7 +186,7 @@ sub Run {
 
                 # do not immediately add, instead get a token first and do the rest in Subaction = ProcessActionOAuth2
                 return $LayoutObject->Redirect( ExtURL => $AuthURL );
-            } 
+            }
 # EO MailAccount-OAuth2
 
             # add mail account
@@ -256,7 +256,7 @@ sub Run {
         my %Errors;
 # Rother OSS / eyazi@efflux / MailAccount-OAuth2
         my $OAuth2 = ( $GetParam{Type} && $GetParam{Type} =~ /OAuth/ ) ? 1 : 0;
-# EO MailAccount-OAuth2        
+# EO MailAccount-OAuth2
 
         # check needed data
 # Rother OSS / eyazi@efflux / MailAccount-OAuth2
@@ -293,7 +293,7 @@ sub Run {
 
                 # do not immediately update, instead get a token first and do the rest in Subaction = ProcessActionOAuth2
                 return $LayoutObject->Redirect( ExtURL => $AuthURL );
-            } 
+            }
 # EO MailAccount-OAuth2
 
             if ( $GetParam{Password} eq 'otobo-dummy-password-placeholder' ) {

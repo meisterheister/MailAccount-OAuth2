@@ -28,6 +28,7 @@ our @ObjectDependencies = (
     'Kernel::System::Main',
     'Kernel::System::Valid',
     'Kernel::System::Cache',
+    'Kernel::System::OAuth2::MailAccount',
 );
 
 =head1 NAME

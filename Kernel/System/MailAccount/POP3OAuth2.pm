@@ -27,6 +27,7 @@ use parent qw(Kernel::System::MailAccount::POP3);
 
 our @ObjectDependencies = (
     'Kernel::System::Log',
+    'Kernel::System::OAuth2::MailAccount',
 );
 
 # Use Net::SSLGlue::POP3 on systems with older Net::POP3 modules that cannot handle POP3.
@@ -77,15 +78,15 @@ sub Connect {
         MailAccountID => $Param{ID}
     );
 
-    if (!$AccessToken) {
+    if ( !$AccessToken ) {
         return (
             Successful => 0,
             Message    => "$Type: Could not request access token for $Param{Login}/$Param{Host}'. The refresh token could be expired or invalid."
         );
     }
 
-    my $SASLXOAUTH2 = encode_base64('user=' . $Param{Login} . "\x01auth=Bearer " . $AccessToken . "\x01\x01");
-    $PopObject->command('AUTH', 'XOAUTH2')->response();
+    my $SASLXOAUTH2 = encode_base64( 'user=' . $Param{Login} . "\x01auth=Bearer " . $AccessToken . "\x01\x01" );
+    $PopObject->command( 'AUTH', 'XOAUTH2' )->response();
     my $NOM = $PopObject->command($SASLXOAUTH2)->response();
 
     if ( !defined $NOM ) {
