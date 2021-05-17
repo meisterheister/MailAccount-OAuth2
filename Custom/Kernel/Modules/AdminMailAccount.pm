@@ -42,13 +42,13 @@ sub Run {
     my $ParamObject  = $Kernel::OM->Get('Kernel::System::Web::Request');
     my $MailAccount  = $Kernel::OM->Get('Kernel::System::MailAccount');
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
     my $OAuth2Object = $Kernel::OM->Get('Kernel::System::OAuth2::MailAccount');
 # EO MailAccount-OAuth2
 
     my %GetParam = ();
     my @Params   = (
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #        qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy)
         qw(ID Login Password Host Type TypeAdd Comment ValidID QueueID IMAPFolder Trusted DispatchingBy Profile)
 # EO MailAccount-OAuth2
@@ -151,11 +151,11 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my %Errors;
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
         my $OAuth2 = ( $GetParam{TypeAdd} && $GetParam{TypeAdd} =~ /OAuth/ ) ? 1 : 0;
 # EO MailAccount-OAuth2        
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #        for my $Needed (qw(Login Password Host)) {
         for my $Needed ( qw(Login), ( $OAuth2 ? qw() : qw(Password Host) ) ) {
 # EO MailAccount-OAuth2
@@ -163,7 +163,7 @@ sub Run {
                 $Errors{ $Needed . 'AddInvalid' } = 'ServerError';
             }
         }
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #        for my $Needed (qw(TypeAdd ValidID)) {
         for my $Needed ( qw(TypeAdd ValidID), ( $OAuth2 ? qw(Profile) : qw() ) ) {
 # EO MailAccount-OAuth2
@@ -175,7 +175,7 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
             if ( $OAuth2 ) {
                 my $AuthURL = $OAuth2Object->GetAuthURL(
                     %GetParam,
@@ -254,12 +254,12 @@ sub Run {
         $LayoutObject->ChallengeTokenCheck();
 
         my %Errors;
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
         my $OAuth2 = ( $GetParam{Type} && $GetParam{Type} =~ /OAuth/ ) ? 1 : 0;
 # EO MailAccount-OAuth2        
 
         # check needed data
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #        for my $Needed (qw(Login Password Host)) {
         for my $Needed ( qw(Login), ( $OAuth2 ? qw() : qw(Password Host) ) ) {
 # EO MailAccount-OAuth2
@@ -267,7 +267,7 @@ sub Run {
                 $Errors{ $Needed . 'EditInvalid' } = 'ServerError';
             }
         }
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #        for my $Needed (qw(Type ValidID DispatchingBy QueueID)) {
         for my $Needed ( qw(Type ValidID DispatchingBy QueueID), ( $OAuth2 ? qw(Profile) : qw() ) ) {
 # EO MailAccount-OAuth2
@@ -282,7 +282,7 @@ sub Run {
         # if no errors occurred
         if ( !%Errors ) {
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
             if ( $OAuth2 ) {
                 my $AuthURL = $OAuth2Object->GetAuthURL(
                     %GetParam,
@@ -344,7 +344,7 @@ sub Run {
         return $Output;
     }
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
     elsif ( $Self->{Subaction} eq 'ProcessActionOAuth2' ) {
 
         # challenge token check for write action
@@ -534,7 +534,7 @@ sub _MaskUpdateMailAccount {
         Class          => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
     $Param{ProfileOption} = $LayoutObject->BuildSelection(
         Data        => $Kernel::OM->Get('Kernel::System::OAuth2::MailAccount')->GetProfiles(),
         Name        => 'Profile',
@@ -614,7 +614,7 @@ sub _MaskAddMailAccount {
         Class          => 'Modernize Validate_Required ' . ( $Param{Errors}->{'QueueIDInvalid'} || '' ),
     );
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
     $Param{ProfileOption} = $LayoutObject->BuildSelection(
         Data        => $Kernel::OM->Get('Kernel::System::OAuth2::MailAccount')->GetProfiles(),
         Name        => 'Profile',

@@ -71,7 +71,7 @@ adds a new mail account
         Host          => 'pop3.example.com',
         Type          => 'POP3',
         IMAPFolder    => 'Some Folder', # optional, only valid for IMAP-type accounts
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
         Profile       => 'Custom1',
 # EO MailAccount-OAuth2
         ValidID       => 1,
@@ -86,7 +86,7 @@ adds a new mail account
 sub MailAccountAdd {
     my ( $Self, %Param ) = @_;
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
     if ( $Param{Type} && $Param{Type} =~ m{ OAuth2 }xmsi ) {
         if ( !$Param{Profile} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -149,15 +149,15 @@ sub MailAccountAdd {
     return if !$DBObject->Do(
         SQL =>
             'INSERT INTO mail_account (login, pw, host, account_type, valid_id, comments, queue_id, '
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            . ' imap_folder, trusted, create_time, create_by, change_time, change_by)'
-            . ' imap_folder, oauth2_profile, trusted, create_time, create_by, change_time, change_by)'  # eyazi@efflux:
+            . ' imap_folder, oauth2_profile, trusted, create_time, create_by, change_time, change_by)'
 # EO MailAccount-OAuth2
             . ' VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, current_timestamp, ?, current_timestamp, ?)',
         Bind => [
             \$Param{Login},   \$Param{Password}, \$Param{Host},    \$Param{Type},
             \$Param{ValidID}, \$Param{Comment},  \$Param{QueueID}, \$Param{IMAPFolder},
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            \$Param{Trusted}, \$Param{UserID},   \$Param{UserID},
              \$Param{Profile}, \$Param{Trusted}, \$Param{UserID},   \$Param{UserID},
 # EO MailAccount-OAuth2
@@ -188,7 +188,7 @@ returns an array of all mail account data
 
     my @MailAccounts = $MailAccount->MailAccountGetAll();
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #(returns list of the fields for each account: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
 (returns list of the fields for each account: ID, Login, Password, Host/Profile, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
 # EO MailAccount-OAuth2
@@ -213,7 +213,7 @@ sub MailAccountGetAll {
     # sql
     return if !$DBObject->Prepare(
         SQL =>
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            'SELECT id, login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
             'SELECT id, login, pw, host, account_type, queue_id, imap_folder, oauth2_profile, trusted, comments, valid_id, '
 # EO MailAccount-OAuth2
@@ -230,7 +230,7 @@ sub MailAccountGetAll {
             Type       => $Data[4] || 'POP3',    # compat for old setups
             QueueID    => $Data[5],
             IMAPFolder => $Data[6],
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            Trusted    => $Data[7],
 #            Comment    => $Data[8],
 #            ValidID    => $Data[9],
@@ -285,7 +285,7 @@ returns a hash of mail account data
         ID => 123,
     );
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #(returns: ID, Login, Password, Host, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
 (returns: ID, Login, Password, Host/Profile, Type, QueueID, Trusted, IMAPFolder, Comment, DispatchingBy, ValidID)
 # EO MailAccount-OAuth2
@@ -318,7 +318,7 @@ sub MailAccountGet {
     # sql
     return if !$DBObject->Prepare(
         SQL =>
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            'SELECT login, pw, host, account_type, queue_id, imap_folder, trusted, comments, valid_id, '
             'SELECT login, pw, host, account_type, queue_id, imap_folder, oauth2_profile, trusted, comments, valid_id, '
 # EO MailAccount-OAuth2
@@ -336,7 +336,7 @@ sub MailAccountGet {
             Type       => $Data[3] || 'POP3',    # compat for old setups
             QueueID    => $Data[4],
             IMAPFolder => $Data[5],
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            Trusted    => $Data[6],
 #            Comment    => $Data[7],
 #            ValidID    => $Data[8],
@@ -392,7 +392,7 @@ update a new mail account
         Host          => 'pop3.example.com',
         Type          => 'POP3',
         IMAPFolder    => 'Some Folder', # optional, only valid for IMAP-type accounts
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
         Profile       => 'Custom1',
 # EO MailAccount-OAuth2
         ValidID       => 1,
@@ -407,7 +407,7 @@ update a new mail account
 sub MailAccountUpdate {
     my ( $Self, %Param ) = @_;
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
     if ( $Param{Type} && $Param{Type} =~ m{ OAuth2 }xmsi ) {
         if ( !$Param{Profile} ) {
             $Kernel::OM->Get('Kernel::System::Log')->Log(
@@ -457,14 +457,14 @@ sub MailAccountUpdate {
     # sql
     return if !$Kernel::OM->Get('Kernel::System::DB')->Do(
         SQL => 'UPDATE mail_account SET login = ?, pw = ?, host = ?, account_type = ?, '
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            . ' comments = ?, imap_folder = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
             . ' comments = ?, imap_folder = ?, oauth2_profile = ?, trusted = ?, valid_id = ?, change_time = current_timestamp, '
 # EO MailAccount-OAuth2
             . ' change_by = ?, queue_id = ? WHERE id = ?',
         Bind => [
             \$Param{Login},   \$Param{Password},   \$Param{Host},    \$Param{Type},
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
 #            \$Param{Comment}, \$Param{IMAPFolder}, \$Param{Trusted}, \$Param{ValidID},
 #            \$Param{UserID},  \$Param{QueueID},    \$Param{ID},
             \$Param{Comment}, \$Param{IMAPFolder}, \$Param{Profile}, \$Param{Trusted},
@@ -509,7 +509,7 @@ sub MailAccountDelete {
         Bind => [ \$Param{ID} ],
     );
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
     $Kernel::OM->Get('Kernel::System::OAuth2::MailAccount')->DeleteToken( ID => $Param{ID} );
 # EO MailAccount-OAuth2
 

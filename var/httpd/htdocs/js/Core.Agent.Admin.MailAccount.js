@@ -94,7 +94,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
             else {
                 $('.Row_IMAPFolder').hide();
             }
-// Rother OSS / MailAccount-OAuth2
+// Rother OSS / eyazi@efflux / MailAccount-OAuth2
             if (/OAuth2/.test($(this).val())) {
                 $('.Row_Profile').show();
                 Core.UI.InputFields.Activate();
@@ -111,7 +111,7 @@ Core.Agent.Admin = Core.Agent.Admin || {};
 // EO MailAccount-OAuth2
         }).trigger('change');
 
-// Rother OSS / MailAccount-OAuth2
+// Rother OSS / eyazi@efflux / MailAccount-OAuth2
         let QueryString = window.location.search;
         if (/&state=|&code=|&error=|&error_description=/.test(QueryString)) {
             const ChallengeToken = Core.Config.Get('ChallengeToken');

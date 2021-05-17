@@ -187,7 +187,7 @@ sub Fetch {
     my %Connect = ();
     eval {
         %Connect = $Self->Connect(
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
             ID       => $Param{ID},
 # EO MailAccount-OAuth2
             Host     => $Param{Host},

@@ -173,7 +173,7 @@
                         </div>
                         <div class="Clear"></div>
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
                         <div class="Row Row_Profile Hidden">
                             <label class="Mandatory" for="Profile"><span class="Marker">*</span> [% Translate("Profile") | html %]:</label>
                             <div class="Field">
@@ -202,7 +202,7 @@
                         </div>
                         <div class="Clear"></div>
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
                         <div class="Row Row_Password">
                             <label class="Mandatory" for="PasswordAdd"><span class="Marker">*</span> [% Translate("Password") | html %]:</label>
                             <div class="Field">
@@ -316,7 +316,7 @@
                         </div>
                         <div class="Clear"></div>
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
                         <div class="Row Row_Profile Hidden">
                             <label class="Mandatory" for="Profile"><span class="Marker">*</span> [% Translate("Profile") | html %]:</label>
                             <div class="Field">
@@ -345,7 +345,7 @@
                         </div>
                         <div class="Clear"></div>
 
-# Rother OSS / MailAccount-OAuth2
+# Rother OSS / eyazi@efflux / MailAccount-OAuth2
                         <div class="Row Row_Password">
                             <label class="Mandatory" for="PasswordEdit"><span class="Marker">*</span> [% Translate("Password") | html %]:</label>
                             <div class="Field">
