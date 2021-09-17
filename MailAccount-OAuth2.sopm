@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<otobo_package version="1.0">
+<otrs_package version="1.1">
     <Name>MailAccount-OAuth2</Name>
     <Version>0.0.0</Version>
-    <Framework>10.0.x</Framework>
+    <Framework>6.0.x</Framework>
     <Vendor>Rother OSS GmbH</Vendor>
     <URL>https://otobo.de/</URL>
     <License>GNU GENERAL PUBLIC LICENSE Version 3, 29 June 2007</License>
@@ -40,4 +40,4 @@
         <TableDrop Name="auth_token">
         </TableDrop>
     </DatabaseUninstall>
-</otobo_package>
+</otrs_package>
